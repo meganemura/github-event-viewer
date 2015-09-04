@@ -1,0 +1,16 @@
+{
+  "name": "github-event-viewer",
+  "version": "0.1.0",
+  "authors": [
+    "meganemura <meganemura@users.noreply.github.com>"
+  ],
+  "main": "index.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
