@@ -16,6 +16,7 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "mithril": "~0.2.0",
+    "moment": "~2.10.6",
     "octicons": "~3.1.0"
   }
 }
