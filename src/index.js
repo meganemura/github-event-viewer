@@ -85,9 +85,9 @@ var GitHubEvent = function(data) {
       case 'PushEvent':         return 'octicon-repo-push';
       case 'WatchEvent':        return 'octicon-eye';
       case 'ForkEvent':         return 'octicon-repo-forked';
-      case 'IssueCommentEvent': return 'octicon-comment';
+      case 'IssueCommentEvent': return 'octicon-comment-discussion';
       case 'GollumEvent':       return 'octicon-book';
-      case 'IssuesEvent':       return 'octicon-book';  // TODO: open/close
+      case 'IssuesEvent':       return 'octicon-issue-opened';  // TODO: open/close
       default: return 'octicon-question';
     }
   };
