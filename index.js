@@ -136,7 +136,7 @@ var GitHubEvent = function(data) {
       case 'PullRequestEvent':  return 'octicon-git-pull-request';
       case 'PullRequestReviewCommentEvent': return 'octicon-comment-discussion';
       case 'PushEvent':         return 'octicon-repo-push';
-      case 'WatchEvent':        return 'octicon-eye';
+      case 'WatchEvent':        return 'octicon-star';
       default: return 'octicon-question';
     }
   };
