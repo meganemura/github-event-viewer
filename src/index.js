@@ -10,6 +10,7 @@ var GitHubEvent = function(data) {
       case 'GollumEvent':       return this.gollumEvent()
       case 'IssueCommentEvent': return this.issueCommentEvent()
       case 'IssuesEvent':       return this.issuesEvent()
+      case 'PullRequestEvent':  return this.pullRequestEvent()
       case 'PushEvent':         return this.pushEvent()
       case 'WatchEvent':        return [this.login(), "started watching"]
       default: return [
@@ -56,6 +57,19 @@ var GitHubEvent = function(data) {
       m('a', {href: this.data.payload.issue.html_url}, [
         '#',
         this.data.payload.issue.number,
+      ]),
+    ];
+  };
+
+  this.pullRequestEvent = function() {
+    return [
+      this.login(),
+      ' ',
+      this.data.payload.action,
+      ' pull request ',
+      m('a', {href: this.data.payload.pull_request.html_url}, [
+        '#',
+        this.data.payload.pull_request.number,
       ]),
     ];
   };
