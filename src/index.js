@@ -11,6 +11,7 @@ var GitHubEvent = function(data) {
       case 'IssueCommentEvent': return this.issueCommentEvent()
       case 'IssuesEvent':       return this.issuesEvent()
       case 'PullRequestEvent':  return this.pullRequestEvent()
+      case 'PullRequestReviewCommentEvent': return this.pullRequestReviewCommentEvent()
       case 'PushEvent':         return this.pushEvent()
       case 'WatchEvent':        return [this.login(), "started watching"]
       default: return [
@@ -74,6 +75,17 @@ var GitHubEvent = function(data) {
     ];
   };
 
+  this.pullRequestReviewCommentEvent = function() {
+    return [
+      this.login(),
+      ' commented on pull request ',
+      m('a', {href: this.data.payload.comment.html_url}, [
+        '#',
+        this.data.payload.pull_request.number,
+      ]),
+    ];
+  };
+
   this.pushEvent = function() {
     var numOfCommits = this.data.payload.commits.length;
     return [
@@ -111,6 +123,7 @@ var GitHubEvent = function(data) {
       case 'IssueCommentEvent': return 'octicon-comment-discussion';
       case 'IssuesEvent':       return 'octicon-issue-opened';  // TODO: open/close
       case 'PullRequestEvent':  return 'octicon-git-pull-request';
+      case 'PullRequestReviewCommentEvent': return 'octicon-comment-discussion';
       case 'PushEvent':         return 'octicon-repo-push';
       case 'WatchEvent':        return 'octicon-eye';
       default: return 'octicon-question';
