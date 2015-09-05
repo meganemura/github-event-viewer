@@ -1,6 +1,17 @@
 var ghUrl = "https://github.com/"
 var ghApiEndpoint = "https://api.github.com/"
 
+var initialRepositories = [
+  "babel/babel",
+  "bower/bower",
+  "bundler/bundler",
+  "gulpjs/gulp",
+  "lhorie/mithril.js",
+  "npm/npm",
+  "rails/rails",
+]
+var initialRepository = initialRepositories[Math.floor(initialRepositories.length * Math.random())]
+
 var GitHubEvent = function(data) {
   this.data = data;
 
@@ -136,7 +147,7 @@ GitHubEvent.repositoryEvents = function(owner_and_repo) {
 
 var vm = {
   init: function() {
-    vm.text = m.prop('lhorie/mithril.js');
+    vm.text = m.prop(initialRepository);
     vm.fetchEvents = function() {
       vm.events([]);
       GitHubEvent.repositoryEvents(vm.text())
