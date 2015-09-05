@@ -154,6 +154,13 @@ function view() {
           onchange: m.withAttr('value', vm.text),
           value: vm.text(),
           autofocus: true,
+          onkeydown: function(e) {
+            if (e.keyCode == 13) {
+              vm.fetchEvents();
+            } else {
+              m.redraw.strategy("none");
+            }
+          },
         }),
       ]),
       m('p'),
