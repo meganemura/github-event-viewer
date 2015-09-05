@@ -8,5 +8,8 @@
   "keywords": [],
   "author": "meganemura",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
