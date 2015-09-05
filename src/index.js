@@ -10,6 +10,7 @@ var GitHubEvent = function(data) {
       case 'GollumEvent':       return this.gollumEvent()
       case 'IssueCommentEvent': return this.issueCommentEvent()
       case 'IssuesEvent':       return this.issuesEvent()
+      case 'PushEvent':         return this.pushEvent()
       case 'WatchEvent':        return [this.login(), "started watching"]
       default: return [
         this.login(),
@@ -56,6 +57,16 @@ var GitHubEvent = function(data) {
         '#',
         this.data.payload.issue.number,
       ]),
+    ];
+  };
+
+  this.pushEvent = function() {
+    var numOfCommits = this.data.payload.commits.length;
+    return [
+      this.login(),
+      ' pushed ',
+      numOfCommits.toString(),
+      ' commit' + ((numOfCommits == 1) ? '' : 's'),
     ];
   };
 
