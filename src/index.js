@@ -24,7 +24,7 @@ var GitHubEvent = function(data) {
       case 'PullRequestEvent':  return this.pullRequestEvent()
       case 'PullRequestReviewCommentEvent': return this.pullRequestReviewCommentEvent()
       case 'PushEvent':         return this.pushEvent()
-      case 'WatchEvent':        return [this.login(), "started watching"]
+      case 'WatchEvent':        return [this.login(), "starred"]
       default: return [
         this.login(),
         m('span', {class: 'text-muted'}, [
