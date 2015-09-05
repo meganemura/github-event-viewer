@@ -8,5 +8,9 @@
   "keywords": [],
   "author": "meganemura",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "gh-pages": "^0.4.0",
+    "gulp": "^3.9.0"
+  }
 }
