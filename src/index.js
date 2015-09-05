@@ -6,11 +6,11 @@ var GitHubEvent = function(data) {
 
   this.event = function() {
     switch (this.data.type) {
-      case 'ForkEvent': return [this.login(), "forked"]
-      case 'GollumEvent': return this.gollumEvent()
+      case 'ForkEvent':         return [this.login(), "forked"]
+      case 'GollumEvent':       return this.gollumEvent()
       case 'IssueCommentEvent': return this.issueCommentEvent()
-      case 'IssuesEvent': return this.issuesEvent()
-      case 'WatchEvent': return [this.login(), "started watching"]
+      case 'IssuesEvent':       return this.issuesEvent()
+      case 'WatchEvent':        return [this.login(), "started watching"]
       default: return [
         this.login(),
         m('span', {class: 'text-muted'}, [
