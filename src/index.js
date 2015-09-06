@@ -189,6 +189,9 @@ var RepositoryInputComponent = {
 
 var RepositoryInformationComponent = {
   view: function() {
+    if (!$.isEmptyObject(vm.meta()) && vm.meta().status != 200) {
+      return m('div', {class: 'text-danger'}, "Something wrong")
+    }
     return m('div', [
       m('a', {href: ghUrl + vm.fetchedRepository()}, [
         vm.fetchedRepository(),
