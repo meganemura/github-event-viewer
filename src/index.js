@@ -22,9 +22,9 @@ GitHubEvent.repositoryEvents = function(owner_and_repo) {
 // Username with gravatar
 var UserName = {
   view: function(ctrl, args) {
-    return m('a', {href: ghUrl + args.data.actor.login}, [
-      m('img', {src: args.data.actor.avatar_url, width: 20, class: 'img-rounded', hspace: 6}),
-      args.data.actor.login,
+    return m('a', {href: ghUrl + args.event.actor.login}, [
+      m('img', {src: args.event.actor.avatar_url, width: 20, class: 'img-rounded', hspace: 6}),
+      args.event.actor.login,
       ' ',
     ]);
   },
@@ -33,7 +33,7 @@ var UserName = {
 var ForkEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       "forked",
     ])
   },
@@ -42,8 +42,8 @@ var ForkEvent = {
 var GollumEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
-      args.data.payload.pages.map(function(page) {
+      m.component(UserName, {event: args.event}),
+      args.event.payload.pages.map(function(page) {
         return [
           page.action,
           ' ',
@@ -57,11 +57,11 @@ var GollumEvent = {
 var IssueCommentEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       ' commented on issue ',
-      m('a', {href: args.data.payload.comment.html_url}, [
+      m('a', {href: args.event.payload.comment.html_url}, [
         '#',
-        args.data.payload.issue.number,
+        args.event.payload.issue.number,
       ]),
     ])
   },
@@ -70,13 +70,13 @@ var IssueCommentEvent = {
 var IssuesEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       ' ',
-      args.data.payload.action,
+      args.event.payload.action,
       ' issue ',
-      m('a', {href: args.data.payload.issue.html_url}, [
+      m('a', {href: args.event.payload.issue.html_url}, [
         '#',
-        args.data.payload.issue.number,
+        args.event.payload.issue.number,
       ]),
     ])
   },
@@ -85,13 +85,13 @@ var IssuesEvent = {
 var PullRequestEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       ' ',
-      args.data.payload.action,
+      args.event.payload.action,
       ' pull request ',
-      m('a', {href: args.data.payload.pull_request.html_url}, [
+      m('a', {href: args.event.payload.pull_request.html_url}, [
         '#',
-        args.data.payload.pull_request.number,
+        args.event.payload.pull_request.number,
       ]),
     ])
   },
@@ -100,11 +100,11 @@ var PullRequestEvent = {
 var PullRequestReviewCommentEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       ' commented on pull request ',
-      m('a', {href: args.data.payload.comment.html_url}, [
+      m('a', {href: args.event.payload.comment.html_url}, [
         '#',
-        args.data.payload.pull_request.number,
+        args.event.payload.pull_request.number,
       ]),
     ])
   },
@@ -112,9 +112,9 @@ var PullRequestReviewCommentEvent = {
 
 var PushEvent = {
   view: function(ctrl, args) {
-    var numOfCommits = args.data.payload.commits.length;
+    var numOfCommits = args.event.payload.commits.length;
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       ' pushed ',
       numOfCommits.toString(),
       ' commit' + ((numOfCommits == 1) ? '' : 's'),
@@ -125,7 +125,7 @@ var PushEvent = {
 var WatchEvent = {
   view: function(ctrl, args) {
     return m('span', [
-      m.component(UserName, {data: args.data}),
+      m.component(UserName, {event: args.event}),
       "starred",
     ])
   },
@@ -134,8 +134,8 @@ var WatchEvent = {
 var EventIcon = {
   view: function(ctrl, args) {
     return m('span', {
-      class: 'octicon ' + this.octiconClass(args.data.type),
-      title: args.data.type,
+      class: 'octicon ' + this.octiconClass(args.event.type),
+      title: args.event.type,
       'text-align': 'center',
     });
   },
@@ -163,7 +163,7 @@ var EventListComponent = {
       m('tbody', vm.events().map(function(event) {
         var created_at = moment(event.created_at)
         return m('tr', [
-          m('td', {align: 'center', class: 'onepx'}, m.component(EventIcon, {data: event})),
+          m('td', {align: 'center', class: 'onepx'}, m.component(EventIcon, {event: event})),
           m('td', [
             vm.dispatchEvent(event),
             ' ',
@@ -200,16 +200,16 @@ var vm = {
 
     vm.dispatchEvent = function(event) {
       switch (event.type) {
-        case 'ForkEvent':                     return m.component(ForkEvent,                      {data: event})
-        case 'GollumEvent':                   return m.component(GollumEvent,                    {data: event})
-        case 'IssueCommentEvent':             return m.component(IssueCommentEvent,              {data: event})
-        case 'IssuesEvent':                   return m.component(IssuesEvent,                    {data: event})
-        case 'PullRequestEvent':              return m.component(PullRequestEvent,               {data: event})
-        case 'PullRequestReviewCommentEvent': return m.component(PullRequestReviewCommentEvent,  {data: event})
-        case 'PushEvent':                     return m.component(PushEvent,                      {data: event})
-        case 'WatchEvent':                    return m.component(WatchEvent,                     {data: event})
+        case 'ForkEvent':                     return m.component(ForkEvent,                      {event: event})
+        case 'GollumEvent':                   return m.component(GollumEvent,                    {event: event})
+        case 'IssueCommentEvent':             return m.component(IssueCommentEvent,              {event: event})
+        case 'IssuesEvent':                   return m.component(IssuesEvent,                    {event: event})
+        case 'PullRequestEvent':              return m.component(PullRequestEvent,               {event: event})
+        case 'PullRequestReviewCommentEvent': return m.component(PullRequestReviewCommentEvent,  {event: event})
+        case 'PushEvent':                     return m.component(PushEvent,                      {event: event})
+        case 'WatchEvent':                    return m.component(WatchEvent,                     {event: event})
         default: return [
-          m.component(UserName, {data: event}),
+          m.component(UserName, {event: event}),
           m('span', {class: 'text-muted'}, [
             "('",
             event.type,
