@@ -183,74 +183,70 @@ var vm = {
   }
 };
 
-function controller() {
-  vm.init();
-  // vm.fetchEvents(); // for dev
-}
-
-function view() {
-  return [
-    m('div', {class: 'jumbotron'}, [
-      m('h2', [
-        'GitHub',
-        m('span', {class: 'mega-octicon octicon-mark-github', style: 'padding: 8px'}),
-        'Event Viewer',
+var EventListComponent = {
+  controller: function() {
+    vm.init();
+    // vm.fetchEvents(); // for dev
+  },
+  view: function() {
+    return [
+      m('div', {class: 'jumbotron'}, [
+        m('h2', [
+          'GitHub',
+          m('span', {class: 'mega-octicon octicon-mark-github', style: 'padding: 8px'}),
+          'Event Viewer',
+        ]),
+        m('h3', [
+          'github.com/',
+          m('input', {
+            placeholder: 'owner/repo',
+            onchange: m.withAttr('value', vm.text),
+            value: vm.text(),
+            autofocus: true,
+            onkeydown: function(e) {
+              if (e.keyCode == 13) {
+                vm.fetchEvents();
+              } else {
+                m.redraw.strategy("none");
+              }
+            },
+          }),
+        ]),
+        m('p'),
+        m('button', {onclick: vm.fetchEvents, class: 'btn btn-lg btn-default'}, 'view'),
       ]),
-      m('h3', [
-        'github.com/',
-        m('input', {
-          placeholder: 'owner/repo',
-          onchange: m.withAttr('value', vm.text),
-          value: vm.text(),
-          autofocus: true,
-          onkeydown: function(e) {
-            if (e.keyCode == 13) {
-              vm.fetchEvents();
-            } else {
-              m.redraw.strategy("none");
-            }
-          },
-        }),
-      ]),
-      m('p'),
-      m('button', {onclick: vm.fetchEvents, class: 'btn btn-lg btn-default'}, 'view'),
-    ]),
-    m('table', {class: 'table table-condensed'}, [
-      m('tbody', [
-        vm.events().map(function(data) {
-          var e = new GitHubEvent(data);
-          var created_at = moment(data.created_at)
-          return [
-            m('tr', [
-              m('td', {align: 'center', class: 'onepx'}, e.icon()),
-              m('td', [
-                e.event(),
-                ' ',
-                m('span', {class: 'text-muted', title: created_at.toString()},
-                  moment(data.created_at).fromNow()
-                ),
+      m('table', {class: 'table table-condensed'}, [
+        m('tbody', [
+          vm.events().map(function(data) {
+            var e = new GitHubEvent(data);
+            var created_at = moment(data.created_at)
+            return [
+              m('tr', [
+                m('td', {align: 'center', class: 'onepx'}, e.icon()),
+                m('td', [
+                  e.event(),
+                  ' ',
+                  m('span', {class: 'text-muted', title: created_at.toString()},
+                    moment(data.created_at).fromNow()
+                  ),
+                ]),
               ]),
-            ]),
-          ]
-        }),
+            ]
+          }),
+        ]),
       ]),
-    ]),
-    m('hr'),
-    m('p', {class: 'text-muted'}, [
-      vm.rateLimit(),
-    ]),
-    m('p', {align: 'right'}, [
-      m('a', {href: 'https://github.com/meganemura/github-event-viewer'}, [
-        m('span', {class: 'octicon octicon-repo', style: 'padding: 8px'}),
-        'meganemura/github-event-viewer',
+      m('hr'),
+      m('p', {class: 'text-muted'}, [
+        vm.rateLimit(),
       ]),
-    ]),
-  ];
+      m('p', {align: 'right'}, [
+        m('a', {href: 'https://github.com/meganemura/github-event-viewer'}, [
+          m('span', {class: 'octicon octicon-repo', style: 'padding: 8px'}),
+          'meganemura/github-event-viewer',
+        ]),
+      ]),
+    ];
+  },
 }
 
-var component = {
-  controller: controller,
-  view: view
-}
-
-m.mount(document.getElementById('root'), component);
+m.mount(document.getElementById('root'), EventListComponent);
