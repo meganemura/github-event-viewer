@@ -12,10 +12,12 @@ var initialRepositories = [
 ]
 var initialRepository = initialRepositories[Math.floor(initialRepositories.length * Math.random())]
 
+// Model
 var GitHubEvent = {}
 GitHubEvent.repositoryEvents = function(owner_and_repo) {
   return m.request({dataType: "jsonp", url: ghApiEndpoint + "repos/" + owner_and_repo + "/events"});
 };
+
 
 // Username with gravatar
 var UserName = {
@@ -155,6 +157,7 @@ var EventIcon = {
   },
 }
 
+
 var vm = {
   init: function() {
     vm.text = m.prop(initialRepository);
@@ -214,6 +217,7 @@ var vm = {
     }
   }
 };
+
 
 var EventListComponent = {
   controller: function() {
