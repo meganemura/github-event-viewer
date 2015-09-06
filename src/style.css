@@ -4,11 +4,12 @@ body {
 }
 
 .container {
-  max-width: 730px;
+  max-width: 600px;
 }
 
 .jumbotron {
   text-align: center;
+  padding: 10px;
   border-bottom: 1px solid #e5e5e5;
 }
 

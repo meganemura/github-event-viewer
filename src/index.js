@@ -210,7 +210,7 @@ var EventListComponent = {
           m('td', [
             vm.dispatchEvent(event),
             ' ',
-            m('span', {class: 'text-muted', title: created_at.toString()},
+            m('small', {class: 'text-muted', title: created_at.toString()},
               moment(event.created_at).fromNow()
              ),
           ]),
