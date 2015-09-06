@@ -172,6 +172,11 @@ var RepositoryInputComponent = {
           onchange: m.withAttr('value', vm.text),
           value: vm.text(),
           autofocus: true,
+          onfocus: function(e) {
+            if (e) {
+              e.target.select();
+            }
+          },
           onkeydown: function(e) {
             if (e.keyCode == 13) {
               vm.fetchEvents();
