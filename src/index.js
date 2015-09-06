@@ -227,7 +227,7 @@ var FooterComponent = {
       m('p', {class: 'text-muted'}, [
         vm.rateLimit(),
       ]),
-      m('p', {align: 'right'}, [
+      m('p', {align: 'right', onmouseover: function() {vm.text('meganemura/github-event-viewer')}}, [
         m('a', {href: 'https://github.com/meganemura/github-event-viewer'}, [
           m('span', {class: 'octicon octicon-repo', style: 'padding: 8px'}),
           'meganemura/github-event-viewer',
