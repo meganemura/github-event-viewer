@@ -157,6 +157,26 @@ var EventIcon = {
   },
 }
 
+var EventListComponent = {
+  view: function() {
+    return m('table', {class: 'table table-condensed'}, [
+      m('tbody', vm.events().map(function(event) {
+        var created_at = moment(event.created_at)
+        return m('tr', [
+          m('td', {align: 'center', class: 'onepx'}, m.component(EventIcon, {data: event})),
+          m('td', [
+            vm.dispatchEvent(event),
+            ' ',
+            m('span', {class: 'text-muted', title: created_at.toString()},
+              moment(event.created_at).fromNow()
+             ),
+          ]),
+        ])
+      }))
+    ])
+  },
+}
+
 
 var vm = {
   init: function() {
@@ -251,25 +271,7 @@ var RootComponent = {
         m('p'),
         m('button', {onclick: vm.fetchEvents, class: 'btn btn-lg btn-default'}, 'view'),
       ]),
-      m('table', {class: 'table table-condensed'}, [
-        m('tbody', [
-          vm.events().map(function(event) {
-            var created_at = moment(event.created_at)
-            return [
-              m('tr', [
-                m('td', {align: 'center', class: 'onepx'}, m.component(EventIcon, {data: event})),
-                m('td', [
-                  vm.dispatchEvent(event),
-                  ' ',
-                  m('span', {class: 'text-muted', title: created_at.toString()},
-                    moment(event.created_at).fromNow()
-                  ),
-                ]),
-              ]),
-            ]
-          }),
-        ]),
-      ]),
+      m.component(EventListComponent),
       m('hr'),
       m('p', {class: 'text-muted'}, [
         vm.rateLimit(),
