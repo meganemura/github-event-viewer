@@ -140,17 +140,17 @@ var EventIcon = {
 
   octiconClass: function(type) {
     switch (type) {
-      case 'CreateEvent':       return 'octicon-git-pull-request';
-      case 'DeleteEvent':       return 'octicon-trashcan';
-      case 'ForkEvent':         return 'octicon-repo-forked';
-      case 'GollumEvent':       return 'octicon-book';
-      case 'IssueCommentEvent': return 'octicon-comment-discussion';
-      case 'IssuesEvent':       return 'octicon-issue-opened';  // TODO: open/close
-      case 'PullRequestEvent':  return 'octicon-git-pull-request';
+      case 'CreateEvent':                   return 'octicon-git-pull-request';
+      case 'DeleteEvent':                   return 'octicon-trashcan';
+      case 'ForkEvent':                     return 'octicon-repo-forked';
+      case 'GollumEvent':                   return 'octicon-book';
+      case 'IssueCommentEvent':             return 'octicon-comment-discussion';
+      case 'IssuesEvent':                   return 'octicon-issue-opened';  // TODO: open/close
+      case 'PullRequestEvent':              return 'octicon-git-pull-request';
       case 'PullRequestReviewCommentEvent': return 'octicon-comment-discussion';
-      case 'PushEvent':         return 'octicon-repo-push';
-      case 'WatchEvent':        return 'octicon-star';
-      default: return 'octicon-question';
+      case 'PushEvent':                     return 'octicon-repo-push';
+      case 'WatchEvent':                    return 'octicon-star';
+      default:                              return 'octicon-question';
     }
   },
 }
