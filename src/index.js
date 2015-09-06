@@ -219,7 +219,7 @@ var vm = {
 };
 
 
-var EventListComponent = {
+var RootComponent = {
   controller: function() {
     vm.init();
     // vm.fetchEvents(); // for dev
@@ -284,4 +284,4 @@ var EventListComponent = {
   },
 }
 
-m.mount(document.getElementById('root'), EventListComponent);
+m.mount(document.getElementById('root'), RootComponent);
