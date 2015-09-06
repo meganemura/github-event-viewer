@@ -172,6 +172,11 @@ var RepositoryInputComponent = {
           onchange: m.withAttr('value', vm.text),
           value: vm.text(),
           autofocus: true,
+          onfocus: function(e) {
+            if (e) {
+              e.target.select();
+            }
+          },
           onkeydown: function(e) {
             if (e.keyCode == 13) {
               vm.fetchEvents();
@@ -228,8 +233,8 @@ var FooterComponent = {
         vm.rateLimit(),
       ]),
       m('p', {align: 'right'}, [
+        m('span', {class: 'octicon octicon-repo', style: 'padding: 8px', onclick: function() {vm.text('meganemura/github-event-viewer')}}),
         m('a', {href: 'https://github.com/meganemura/github-event-viewer'}, [
-          m('span', {class: 'octicon octicon-repo', style: 'padding: 8px', onmouseover: function() {vm.text('meganemura/github-event-viewer')}}),
           'meganemura/github-event-viewer',
         ]),
       ]),
