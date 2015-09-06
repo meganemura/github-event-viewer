@@ -187,6 +187,16 @@ var RepositoryInputComponent = {
   },
 }
 
+var RepositoryInformationComponent = {
+  view: function() {
+    return m('div', [
+      m('a', {href: ghUrl + vm.fetchedRepository()}, [
+        vm.fetchedRepository(),
+      ])
+    ]);
+  },
+}
+
 var EventListComponent = {
   view: function() {
     return m('table', {class: 'table table-condensed'}, [
@@ -228,6 +238,7 @@ var FooterComponent = {
 var vm = {
   init: function() {
     vm.text = m.prop(initialRepository);
+    vm.fetchedRepository = m.prop();
     vm.fetchEvents = function() {
       vm.events([]);
       GitHubEvent.repositoryEvents(vm.text())
@@ -242,6 +253,7 @@ var vm = {
           vm.events(data.data);
         }
       });
+      vm.fetchedRepository(vm.text());
     };
     vm.events = m.prop([]);
 
@@ -294,6 +306,7 @@ var RootComponent = {
   view: function() {
     return [
       m.component(RepositoryInputComponent),
+      m.component(RepositoryInformationComponent),
       m.component(EventListComponent),
       m.component(FooterComponent),
     ];
