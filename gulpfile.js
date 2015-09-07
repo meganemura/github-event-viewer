@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var ghpages = require('gh-pages');
 var path = require('path');
 
-gulp.task('deploy', ['sass'], function() {
+gulp.task('deploy', ['sass', 'pleeease'], function() {
   return ghpages.publish(path.join(__dirname, 'src'), function(err) {
     console.log(err);
   });
@@ -18,4 +18,11 @@ gulp.task('sass', function () {
 
 gulp.task('sass:watch', function () {
   gulp.watch('./src/stylesheets/**/*.scss', ['sass']);
+});
+
+var pleeease = require('gulp-pleeease');
+gulp.task('pleeease', function() {
+  return gulp.src('./src/stylesheets/*.css')
+  .pipe(pleeease())
+  .pipe(gulp.dest('./src/stylesheets'));
 });
