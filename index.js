@@ -198,6 +198,7 @@ var RepositoryInformationComponent = {
       return m('div', {class: 'text-danger'}, "Something wrong")
     }
     return m('div', [
+      (vm.fetchedRepository() !== "" ? m('span', {class: 'octicon octicon-repo', style: 'padding: 8px'}) : ""),
       m('a', {href: ghUrl + vm.fetchedRepository()}, [
         vm.fetchedRepository(),
       ])
@@ -260,7 +261,7 @@ var vm = {
   init: function() {
     vm.isLoading = m.prop(false);
     vm.text = m.prop(initialRepository);
-    vm.fetchedRepository = m.prop();
+    vm.fetchedRepository = m.prop("");
     vm.fetchEvents = function() {
       vm.isLoading(true);
       vm.events([]);
