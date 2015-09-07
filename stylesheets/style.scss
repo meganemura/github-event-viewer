@@ -1,0 +1,24 @@
+//colors
+$mercury: #e5e5e5;
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.container {
+  max-width: 600px;
+}
+.jumbotron {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid $mercury;
+  .btn {
+    padding: 2px 24px;
+    font-size: 21px;
+  }
+}
+.onepx {
+  width: 1px;
+}
+
+@import '../../bower_components/spinkit/scss/spinners/7-three-bounce.scss';

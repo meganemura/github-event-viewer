@@ -15,7 +15,7 @@ var initialRepository = initialRepositories[Math.floor(initialRepositories.lengt
 // Model
 var GitHubEvent = {}
 GitHubEvent.repositoryEvents = function(owner_and_repo) {
-  return m.request({dataType: "jsonp", url: ghApiEndpoint + "repos/" + owner_and_repo + "/events"});
+  return m.request({dataType: "jsonp", url: ghApiEndpoint + "repos/" + owner_and_repo + "/events", background: true});
 };
 
 
@@ -205,6 +205,19 @@ var RepositoryInformationComponent = {
   },
 }
 
+var SpinnerComponent = {
+  view: function() {
+    if (!vm.isLoading()) {
+      return m('span')
+    }
+    return m('div', {class: 'sk-three-bounce'}, [
+      [1, 2, 3].map(function(i) {
+        return m('div', {class: "sk-child sk-bounce" + i});
+      })
+    ])
+  }
+}
+
 var EventListComponent = {
   view: function() {
     return m('table', {class: 'table table-condensed'}, [
@@ -245,9 +258,11 @@ var FooterComponent = {
 
 var vm = {
   init: function() {
+    vm.isLoading = m.prop(false);
     vm.text = m.prop(initialRepository);
     vm.fetchedRepository = m.prop();
     vm.fetchEvents = function() {
+      vm.isLoading(true);
       vm.events([]);
       GitHubEvent.repositoryEvents(vm.text())
       .then(function(data) {
@@ -260,7 +275,10 @@ var vm = {
         } else {
           vm.events(data.data);
         }
-      });
+      })
+      .then(function() { vm.isLoading(false) })
+      .then(m.redraw);
+
       vm.fetchedRepository(vm.text());
     };
     vm.events = m.prop([]);
@@ -315,6 +333,7 @@ var RootComponent = {
     return [
       m.component(RepositoryInputComponent),
       m.component(RepositoryInformationComponent),
+      m.component(SpinnerComponent),
       m.component(EventListComponent),
       m.component(FooterComponent),
     ];
