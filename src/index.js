@@ -160,11 +160,11 @@ var EventIcon = {
 var RepositoryInputComponent = {
   view: function() {
     return m('div', {class: 'jumbotron'}, [
-      m('h2', [
+      m('h2', m('a', {href: '.', style: 'text-decoration: none; color: black' }, [
         'GitHub',
         m('span', {class: 'mega-octicon octicon-mark-github', style: 'padding: 8px'}),
         'Event Viewer',
-      ]),
+      ])),
       m('h3', [
         'github.com/',
         m('input', {
