@@ -42,6 +42,18 @@ var CreateEvent = {
   },
 }
 
+var DeleteEvent = {
+  view: function(ctrl, args) {
+    return m('span', [
+      m.component(UserName, {event: args.event}),
+      "deleted ",
+      args.event.payload.ref_type,
+      " ",
+      args.event.payload.ref,
+    ])
+  },
+}
+
 var ForkEvent = {
   view: function(ctrl, args) {
     return m('span', [
@@ -299,6 +311,7 @@ var vm = {
     vm.dispatchEvent = function(event) {
       switch (event.type) {
         case 'CreateEvent':                   return m.component(CreateEvent,                    {event: event})
+        case 'DeleteEvent':                   return m.component(DeleteEvent,                    {event: event})
         case 'ForkEvent':                     return m.component(ForkEvent,                      {event: event})
         case 'GollumEvent':                   return m.component(GollumEvent,                    {event: event})
         case 'IssueCommentEvent':             return m.component(IssueCommentEvent,              {event: event})
