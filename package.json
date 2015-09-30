@@ -13,6 +13,7 @@
     "babel-core": "^5.8.25",
     "gh-pages": "^0.4.0",
     "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
     "gulp-pleeease": "^1.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-server-livereload": "^1.5.3"
