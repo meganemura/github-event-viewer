@@ -10,6 +10,7 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
+    "babel-core": "^5.8.25",
     "gh-pages": "^0.4.0",
     "gulp": "^3.9.0",
     "gulp-pleeease": "^1.2.0",
