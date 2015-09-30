@@ -1,7 +1,7 @@
-var gulp = require('gulp');
+var gulp    = require('gulp');
 var ghpages = require('gh-pages');
-var path = require('path');
-var server   = require('gulp-server-livereload');
+var path    = require('path');
+var server  = require('gulp-server-livereload');
 
 gulp.task('deploy', ['sass'], function() {
   return ghpages.publish(path.join(__dirname, 'src'), function(err) {
