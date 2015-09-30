@@ -30,6 +30,18 @@ var UserName = {
   },
 }
 
+var CreateEvent = {
+  view: function(ctrl, args) {
+    return m('span', [
+      m.component(UserName, {event: args.event}),
+      "created ",
+      args.event.payload.ref_type,
+      " ",
+      m('a', {href: ghUrl + args.event.repo.name + "/tree/" + args.event.payload.ref}, args.event.payload.ref),
+    ])
+  },
+}
+
 var ForkEvent = {
   view: function(ctrl, args) {
     return m('span', [
@@ -142,7 +154,7 @@ var EventIcon = {
 
   octiconClass: function(type) {
     switch (type) {
-      case 'CreateEvent':                   return 'octicon-git-pull-request';
+      case 'CreateEvent':                   return 'octicon-git-branch';
       case 'DeleteEvent':                   return 'octicon-trashcan';
       case 'ForkEvent':                     return 'octicon-repo-forked';
       case 'GollumEvent':                   return 'octicon-book';
@@ -286,6 +298,7 @@ var vm = {
 
     vm.dispatchEvent = function(event) {
       switch (event.type) {
+        case 'CreateEvent':                   return m.component(CreateEvent,                    {event: event})
         case 'ForkEvent':                     return m.component(ForkEvent,                      {event: event})
         case 'GollumEvent':                   return m.component(GollumEvent,                    {event: event})
         case 'IssueCommentEvent':             return m.component(IssueCommentEvent,              {event: event})
