@@ -13,6 +13,7 @@
     "gh-pages": "^0.4.0",
     "gulp": "^3.9.0",
     "gulp-pleeease": "^1.2.0",
-    "gulp-sass": "^2.0.4"
+    "gulp-sass": "^2.0.4",
+    "gulp-server-livereload": "^1.5.3"
   }
 }
