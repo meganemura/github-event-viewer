@@ -1,7 +1,10 @@
-var gulp = require('gulp');
+var babel   = require('gulp-babel');
 var ghpages = require('gh-pages');
-var path = require('path');
-var server   = require('gulp-server-livereload');
+var gulp    = require('gulp');
+var notify  = require('gulp-notify');
+var path    = require('path');
+var plumber = require('gulp-plumber');
+var server  = require('gulp-server-livereload');
 
 gulp.task('deploy', ['sass'], function() {
   return ghpages.publish(path.join(__dirname, 'src'), function(err) {
@@ -22,6 +25,19 @@ gulp.task('sass', function () {
 gulp.task('sass:watch', function () {
   gulp.watch('./src/stylesheets/**/*.scss', ['sass']);
 });
+
+gulp.task('babel', () => {
+  gulp.src('./src/*.es6')
+  .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")}))
+  .pipe(babel())
+  .pipe(gulp.dest('./src'))
+});
+
+gulp.task('babel:watch', () => {
+  gulp.watch('./src/*.es6', ['babel']);
+});
+
+gulp.task('watch', ['sass:watch', 'babel:watch']);
 
 gulp.task('server', function() {
   gulp.src('.')
