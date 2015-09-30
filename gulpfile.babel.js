@@ -6,7 +6,7 @@ var path    = require('path');
 var plumber = require('gulp-plumber');
 var server  = require('gulp-server-livereload');
 
-gulp.task('deploy', ['sass'], function() {
+gulp.task('deploy', ['babel', 'sass'], function() {
   return ghpages.publish(path.join(__dirname, 'src'), function(err) {
     console.log(err);
   });
