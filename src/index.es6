@@ -106,6 +106,20 @@ var IssuesEvent = {
   },
 }
 
+var MemberEvent = {
+  view: (ctrl, args) => {
+    return m('span', [
+      m.component(UserName, {event: args.event}),
+      ' ',
+      args.event.payload.action,
+      ' ',
+      m('a', {href: args.event.payload.member.html_url}, [
+        args.event.payload.member.login
+      ]),
+    ])
+  },
+}
+
 var PullRequestEvent = {
   view: function(ctrl, args) {
     return m('span', [
@@ -172,6 +186,7 @@ var EventIcon = {
       case 'GollumEvent':                   return 'octicon-book';
       case 'IssueCommentEvent':             return 'octicon-comment-discussion';
       case 'IssuesEvent':                   return 'octicon-issue-opened';  // TODO: open/close
+      case 'MemberEvent':                   return 'octicon-person';
       case 'PullRequestEvent':              return 'octicon-git-pull-request';
       case 'PullRequestReviewCommentEvent': return 'octicon-comment-discussion';
       case 'PushEvent':                     return 'octicon-repo-push';
@@ -316,6 +331,7 @@ var vm = {
         case 'GollumEvent':                   return m.component(GollumEvent,                    {event: event})
         case 'IssueCommentEvent':             return m.component(IssueCommentEvent,              {event: event})
         case 'IssuesEvent':                   return m.component(IssuesEvent,                    {event: event})
+        case 'MemberEvent':                   return m.component(MemberEvent,                    {event: event})
         case 'PullRequestEvent':              return m.component(PullRequestEvent,               {event: event})
         case 'PullRequestReviewCommentEvent': return m.component(PullRequestReviewCommentEvent,  {event: event})
         case 'PushEvent':                     return m.component(PushEvent,                      {event: event})
