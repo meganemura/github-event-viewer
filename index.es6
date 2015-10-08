@@ -14,14 +14,14 @@ var initialRepository = initialRepositories[Math.floor(initialRepositories.lengt
 
 // Model
 var GitHubEvent = {}
-GitHubEvent.repositoryEvents = function(owner_and_repo) {
+GitHubEvent.repositoryEvents = (owner_and_repo) => {
   return m.request({dataType: "jsonp", url: ghApiEndpoint + "repos/" + owner_and_repo + "/events", background: true});
 };
 
 
 // Username with gravatar
 var UserName = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('a', {href: ghUrl + args.event.actor.login}, [
       m('img', {src: args.event.actor.avatar_url, width: 20, class: 'img-rounded', hspace: 6}),
       args.event.actor.login,
@@ -31,7 +31,7 @@ var UserName = {
 }
 
 var CreateEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       "created ",
@@ -43,7 +43,7 @@ var CreateEvent = {
 }
 
 var DeleteEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       "deleted ",
@@ -55,7 +55,7 @@ var DeleteEvent = {
 }
 
 var ForkEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       "forked",
@@ -64,10 +64,10 @@ var ForkEvent = {
 }
 
 var GollumEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
-      args.event.payload.pages.map(function(page) {
+      args.event.payload.pages.map((page) => {
         return [
           page.action,
           ' ',
@@ -79,7 +79,7 @@ var GollumEvent = {
 }
 
 var IssueCommentEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       ' commented on issue ',
@@ -92,7 +92,7 @@ var IssueCommentEvent = {
 }
 
 var IssuesEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       ' ',
@@ -121,7 +121,7 @@ var MemberEvent = {
 }
 
 var PullRequestEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       ' ',
@@ -136,7 +136,7 @@ var PullRequestEvent = {
 }
 
 var PullRequestReviewCommentEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       ' commented on pull request ',
@@ -149,7 +149,7 @@ var PullRequestReviewCommentEvent = {
 }
 
 var PushEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     var numOfCommits = args.event.payload.commits.length;
     return m('span', [
       m.component(UserName, {event: args.event}),
@@ -161,7 +161,7 @@ var PushEvent = {
 }
 
 var WatchEvent = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', [
       m.component(UserName, {event: args.event}),
       "starred",
@@ -170,15 +170,15 @@ var WatchEvent = {
 }
 
 var EventIcon = {
-  view: function(ctrl, args) {
+  view: (ctrl, args) => {
     return m('span', {
-      class: 'octicon ' + this.octiconClass(args.event.type),
+      class: 'octicon ' + EventIcon.octiconClass(args.event.type),
       title: args.event.type,
       'text-align': 'center',
     });
   },
 
-  octiconClass: function(type) {
+  octiconClass: (type) => {
     switch (type) {
       case 'CreateEvent':                   return 'octicon-git-branch';
       case 'DeleteEvent':                   return 'octicon-trashcan';
@@ -197,7 +197,7 @@ var EventIcon = {
 }
 
 var RepositoryInputComponent = {
-  view: function() {
+  view: () => {
     return m('div', {class: 'jumbotron'}, [
       m('h2', m('a', {href: '.', style: 'text-decoration: none; color: black' }, [
         'GitHub',
@@ -211,12 +211,12 @@ var RepositoryInputComponent = {
           onchange: m.withAttr('value', vm.text),
           value: vm.text(),
           autofocus: true,
-          onfocus: function(e) {
+          onfocus: (e) => {
             if (e) {
               e.target.select();
             }
           },
-          onkeydown: function(e) {
+          onkeydown: (e) => {
             if (e.keyCode == 13) {
               vm.fetchEvents();
             } else {
@@ -232,7 +232,7 @@ var RepositoryInputComponent = {
 }
 
 var RepositoryInformationComponent = {
-  view: function() {
+  view: () => {
     if (!$.isEmptyObject(vm.meta()) && vm.meta().status != 200) {
       return m('div', {class: 'text-danger'}, "Something wrong")
     }
@@ -246,12 +246,12 @@ var RepositoryInformationComponent = {
 }
 
 var SpinnerComponent = {
-  view: function() {
+  view: () => {
     if (!vm.isLoading()) {
       return m('span')
     }
     return m('div', {class: 'sk-three-bounce'}, [
-      [1, 2, 3].map(function(i) {
+      [1, 2, 3].map((i) => {
         return m('div', {class: "sk-child sk-bounce" + i});
       })
     ])
@@ -259,9 +259,9 @@ var SpinnerComponent = {
 }
 
 var EventListComponent = {
-  view: function() {
+  view: () => {
     return m('table', {class: 'table table-condensed'}, [
-      m('tbody', vm.events().map(function(event) {
+      m('tbody', vm.events().map((event) => {
         var created_at = moment(event.created_at)
         return m('tr', [
           m('td', {align: 'center', class: 'onepx'}, m.component(EventIcon, {event: event})),
@@ -279,14 +279,14 @@ var EventListComponent = {
 }
 
 var FooterComponent = {
-  view: function() {
+  view: () => {
     return m('div', [
       m('hr'),
       m('p', {class: 'text-muted'}, [
         vm.rateLimit(),
       ]),
       m('p', {align: 'right'}, [
-        m('span', {class: 'octicon octicon-repo', style: 'padding: 8px', onclick: function() {vm.text('meganemura/github-event-viewer')}}),
+        m('span', {class: 'octicon octicon-repo', style: 'padding: 8px', onclick: () => {vm.text('meganemura/github-event-viewer')}}),
         m('a', {href: 'https://github.com/meganemura/github-event-viewer'}, [
           'meganemura/github-event-viewer',
         ]),
@@ -297,15 +297,15 @@ var FooterComponent = {
 
 
 var vm = {
-  init: function() {
+  init: () => {
     vm.isLoading = m.prop(false);
     vm.text = m.prop(initialRepository);
     vm.fetchedRepository = m.prop("");
-    vm.fetchEvents = function() {
+    vm.fetchEvents = () => {
       vm.isLoading(true);
       vm.events([]);
       GitHubEvent.repositoryEvents(vm.text())
-      .then(function(data) {
+      .then((data) => {
 
         console.log(data);  // for dev
         vm.meta(data.meta);  // for dev
@@ -316,14 +316,14 @@ var vm = {
           vm.events(data.data);
         }
       })
-      .then(function() { vm.isLoading(false) })
+      .then(() => { vm.isLoading(false) })
       .then(m.redraw);
 
       vm.fetchedRepository(vm.text());
     };
     vm.events = m.prop([]);
 
-    vm.dispatchEvent = function(event) {
+    vm.dispatchEvent = (event) => {
       switch (event.type) {
         case 'CreateEvent':                   return m.component(CreateEvent,                    {event: event})
         case 'DeleteEvent':                   return m.component(DeleteEvent,                    {event: event})
@@ -348,16 +348,16 @@ var vm = {
     };
 
     vm.meta = m.prop({});
-    vm.rateLimit = function() {
-      if ($.isEmptyObject(this.meta())) { return }
+    vm.rateLimit = () => {
+      if ($.isEmptyObject(vm.meta())) { return }
 
-      var reset_at = parseInt(this.meta()["X-RateLimit-Reset"] || 0);
+      var reset_at = parseInt(vm.meta()["X-RateLimit-Reset"] || 0);
       return [
         m('a', {href: 'https://developer.github.com/v3/#rate-limiting'}, "API Rate Limit"),
         ": ",
-        this.meta()["X-RateLimit-Remaining"],
+        vm.meta()["X-RateLimit-Remaining"],
         "/",
-        this.meta()["X-RateLimit-Limit"],
+        vm.meta()["X-RateLimit-Limit"],
         " (Reset at: ",
         moment.unix(reset_at).toString(),
         ")",
@@ -368,11 +368,11 @@ var vm = {
 
 
 var RootComponent = {
-  controller: function() {
+  controller: () => {
     vm.init();
     // vm.fetchEvents(); // for dev
   },
-  view: function() {
+  view: () => {
     return [
       m.component(RepositoryInputComponent),
       m.component(RepositoryInformationComponent),

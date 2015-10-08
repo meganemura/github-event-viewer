@@ -91,7 +91,7 @@ var WatchEvent = {
 var EventIcon = {
   view: function view(ctrl, args) {
     return m('span', {
-      "class": 'octicon ' + this.octiconClass(args.event.type),
+      "class": 'octicon ' + EventIcon.octiconClass(args.event.type),
       title: args.event.type,
       'text-align': 'center'
     });
@@ -244,12 +244,12 @@ var vm = {
 
     vm.meta = m.prop({});
     vm.rateLimit = function () {
-      if ($.isEmptyObject(this.meta())) {
+      if ($.isEmptyObject(vm.meta())) {
         return;
       }
 
-      var reset_at = parseInt(this.meta()["X-RateLimit-Reset"] || 0);
-      return [m('a', { href: 'https://developer.github.com/v3/#rate-limiting' }, "API Rate Limit"), ": ", this.meta()["X-RateLimit-Remaining"], "/", this.meta()["X-RateLimit-Limit"], " (Reset at: ", moment.unix(reset_at).toString(), ")"];
+      var reset_at = parseInt(vm.meta()["X-RateLimit-Reset"] || 0);
+      return [m('a', { href: 'https://developer.github.com/v3/#rate-limiting' }, "API Rate Limit"), ": ", vm.meta()["X-RateLimit-Remaining"], "/", vm.meta()["X-RateLimit-Limit"], " (Reset at: ", moment.unix(reset_at).toString(), ")"];
     };
   }
 };
